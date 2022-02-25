@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Getting Clients IP</title>
+         
+        <style>
+            h1 {
+                color: green;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+         
+        <script>
+        
+        // Add "https://ipinfo.io" statement
+        // this will communicate with the ipify servers
+        // in order to retrieve the IP address
+        $.get("https://ipinfo.io", function(response) {
+                alert(response.ip);
+            }, "json")
+             
+            // "json" shows that data will be fetched in json format
+        </script>
+    </head>
+    <body>
+        <p>Ben wants your location</p>
+
+        <button onclick="getLocation()">Click here to get Bonked</button>
+
+        <p id="demo"></p>
+
+        <script>
+            var x = document.getElementById("demo");
+
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, errorCallback, { timeout:5000 });
+                } else {
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            }
+
+            function showPosition(position) {
+                latlong = x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+            }
+
+            function errorCallback(error) {
+                x.innerHTML = "failed";
+            }
+        </script>
+    </body>
+</html>
