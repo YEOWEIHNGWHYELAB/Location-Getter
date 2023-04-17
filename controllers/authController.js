@@ -5,15 +5,16 @@ exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   // Check if user exists
-  const user = await User.findOne({ where: { username } });
+  const user = await User.findOneByUsername({ where: { username: username } });
   if (!user) {
-    return res.status(401).json({ message: 'Invalid username or password' });
+    return res.status(401).json({ message: 'Invalid Username or Password!' });
   }
 
   // Check if password is correct
-  const isPasswordValid = await user.verifyPassword(password);
-  if (!isPasswordValid) {
-    return res.status(401).json({ message: 'Invalid username or password' });
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    return res.status(401).json({ message: 'Invalid Username or Password' });
   }
 
   // Generate JWT token
@@ -21,6 +22,7 @@ exports.login = async (req, res) => {
   
   // Set the token in a cookie
   res.cookie('token', token, { httpOnly: true });
+
   return res.status(200).json({ message: 'Logged in successfully' });
 };
 
