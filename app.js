@@ -4,14 +4,10 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const app = express();
-
-const db = require('./config/db'); // import db.js
-const User = require('./models/User'); // import User model
-const Location = require('./models/Location'); // import Location model
-
-// create a connection to the database
-// db.connect();
 
 const port = process.env.PORT || 3000;
 
@@ -51,14 +47,6 @@ app.use((error, req, res, next) => {
       message: error.message
     }
   });
-});
-
-// Print out the list of available routes
-const router = express.Router();
-router.stack.forEach((middleware) => {
-  if (middleware.route) {
-    console.log(`${Object.keys(middleware.route.methods)} -> ${middleware.route.path}`);
-  }
 });
 
 // Start the server

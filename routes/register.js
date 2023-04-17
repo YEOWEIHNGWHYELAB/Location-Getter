@@ -15,17 +15,18 @@ router.post('', async (req, res) => {
 
   try {
     // Check if user already exists
-    const existingUser = await User.query().findOne({ where: { username: username } });
+    const existingUser = await User.findOneByUsername({ where: { username: username } });
+
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
+    const hashPassword = await bcrypt.hash(password, salt);
 
     // Create new user
-    const newUser = await User.create({ username, password: hash });
+    const newUser = await User.createUser({ username, hashPassword });
 
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {

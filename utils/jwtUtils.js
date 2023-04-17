@@ -1,8 +1,5 @@
-// Load environment variables from .env file
-const dotenv = require("dotenv");
-dotenv.config();
-
 const jwt = require('jsonwebtoken');
+
 const { secret } = process.env.JWT_SECRET;
 
 function generateToken(user) {
