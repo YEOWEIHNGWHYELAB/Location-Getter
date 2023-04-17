@@ -5,11 +5,20 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+
+const db = require('./config/db'); // import db.js
+const User = require('./models/User'); // import User model
+const Location = require('./models/Location'); // import Location model
+
+// create a connection to the database
+// db.connect();
+
 const port = process.env.PORT || 3000;
 
 // Import routes
 const authRoute = require('./routes/auth');
 const locationRoute = require('./routes/location');
+const registerRoute = require('./routes/register');
 
 // Import middleware
 const authMiddleware = require('./middleware/authMiddleware');
@@ -24,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set up routes
 app.use('/auth', authRoute);
+app.use('/register', registerRoute);
 app.use('/location', authMiddleware, locationRoute);
 
 // Handle undefined routes

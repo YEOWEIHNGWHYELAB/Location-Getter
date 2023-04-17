@@ -11,6 +11,13 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+pool.connect((err, client, done) => {
+  if (err) 
+    throw err;
+  
+  console.log('Connected to database');
+});
+
 module.exports = {
   query: (text, params) => pool.query(text, params),
 };
