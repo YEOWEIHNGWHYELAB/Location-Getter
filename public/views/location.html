@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Automatic Location Upload</title>
+  </head>
+  <body>
+    <h1>Automatic Location Upload</h1>
+
+    <p>Welcome, <span id="username"></span>!</p>
+
+    <p>Your current location: <span id="location"></span></p>
+
+    <button id="upload-button">Upload Location</button>
+
+    <p>Or</p>
+
+    <form id="manual-upload-form">
+      <label>
+        Latitude:
+        <input type="number" id="latitude" required step="any">
+      </label>
+      <br>
+      <label>
+        Longitude:
+        <input type="number" id="longitude" required step="any">
+      </label>
+      <br>
+      <button type="submit">Upload</button>
+    </form>
+
+    <script src="../scripts/location.js"></script>
+  </body>
+</html>

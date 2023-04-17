@@ -1,0 +1,13 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE locations (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) NOT NULL REFERENCES users(username),
+  latitude DECIMAL(10, 8) NOT NULL,
+  longitude DECIMAL(11, 8) NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
