@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const cookie = require('cookie');
 const path = require('path');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 router.get('', function(req, res) {
     res.sendFile(path.join(__dirname, '..', 'public/views/login.html'));
@@ -15,7 +17,7 @@ router.get('', function(req, res) {
 router.post('', async (req, res) => {
     try {
         // Verify username and password
-        const user = await User.findOneByUsername({ where: { username: req.body.username } });
+        const user = await User.findOneByUsername(req.body.username);
 
         if (!user) {
           return res.status(401).json({ error: 'Invalid credentials username' });
@@ -35,7 +37,7 @@ router.post('', async (req, res) => {
           httpOnly: true,
           secure: process.env.NODE_ENV !== 'development', // Set to true in production
           sameSite: 'strict',
-          maxAge: 86400, // Expires in 24 hours
+          maxAge: 24 * 60 * 60 * 1000, // Expires in 24 hours
           path: '/',
         }));
 
