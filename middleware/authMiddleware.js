@@ -1,11 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-const { secret } = process.env.JWT_SECRET;
-
 const authMiddleware = (req, res, next) => {
-  // get token from request header
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+  // Get the JWT token from the cookie
+  const token = req.cookies.jwt;
 
   // if token is not found, return 401 unauthorized error
   if (!token) {
@@ -14,13 +11,15 @@ const authMiddleware = (req, res, next) => {
 
   try {
     // verify token with secret key
-    const decoded = jwt.verify(token, secret);
+    jwt.verify(token, process.env.JWT_SECRET, (err) => {
+      console.log(err);
+      if (err)
+        return res.status(403).send({ errorMsg: "Invalid login token provided, please relogin" });
 
-    // add decoded user information to request object
-    req.user = decoded;
+      req.user = req.cookies.username;
 
-    // call next middleware
-    next();
+      next();
+    });
   } catch (error) {
     // if token is invalid, return 403 forbidden error
     return res.status(403).json({ message: 'Forbidden access.' });

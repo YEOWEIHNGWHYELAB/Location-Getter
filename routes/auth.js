@@ -10,7 +10,6 @@ router.get('', function(req, res) {
     res.sendFile(path.join(__dirname, '..', 'public/views/login.html'));
 });
 
-//router.post('/login', authController.login);
 //router.post('/logout', authController.logout);
 
 // POST new user registration
@@ -40,6 +39,8 @@ router.post('', async (req, res) => {
           maxAge: 24 * 60 * 60 * 1000, // Expires in 24 hours
           path: '/',
         }));
+
+        res.cookie("username", req.body.username, { maxAge: 24 * 60 * 60 * 1000 });
 
         res.status(200).json({ message: 'Logged in successfully' });
       } catch (error) {
