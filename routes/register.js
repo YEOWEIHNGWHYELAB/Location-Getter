@@ -28,7 +28,7 @@ router.post("", async (req, res) => {
     // Create new user
     const newUser = await User.createUser({ username, hashPassword });
 
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ message: `${newUser.username} created successfully` });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

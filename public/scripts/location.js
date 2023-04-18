@@ -1,16 +1,16 @@
 // Get the user's current location
 function getCurrentLocation() {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          resolve(position.coords);
-        },
-        error => {
-          reject(error.message);
-        }
-      );
-    });
-  }
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        resolve(position.coords);
+      },
+      error => {
+        reject(error.message);
+      }
+    );
+  });
+}
   
   // Send the location data to the server
   async function sendLocationData(location) {
@@ -24,7 +24,7 @@ function getCurrentLocation() {
     const data = { latitude, longitude };
   
     try {
-      const response = await fetch('/api/locations', {
+      const response = await fetch('/location', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

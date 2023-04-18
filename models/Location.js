@@ -5,10 +5,18 @@ class Location extends Model {
     return 'locations';
   }
 
-  static async findOneByUsername(username) {
+  static async findByUsername(username) {
     const { rows } = await pool.query(
       'SELECT * FROM locations WHERE username = $1', 
       [username]);
+
+    return rows;
+  }
+
+  static async addLocation(username, lat, long) {
+    const { rows } = await pool.query(
+      'INSERT INTO locations (username, latitdue, longitude) VALUES ($1, $2, $3) RETURNING *', 
+      [username, lat, long]);
 
     return rows[0];
   }

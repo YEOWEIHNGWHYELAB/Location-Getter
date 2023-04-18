@@ -10,6 +10,13 @@ router.get('', function(req, res) {
     res.sendFile(path.join(__dirname, '..', 'public/views/login.html'));
 });
 
+/*
+exports.logout = (req, res) => {
+  res.clearCookie('token');
+  return res.status(200).json({ message: 'Logged out successfully' });
+};
+*/
+
 //router.post('/logout', authController.logout);
 
 // POST new user registration

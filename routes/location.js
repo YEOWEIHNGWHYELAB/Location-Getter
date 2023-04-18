@@ -1,17 +1,18 @@
 const Location = require('../models/Location');
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('', function(req, res) {
+router.get('', authMiddleware, function(req, res) {
     res.sendFile(path.join(__dirname, '..', 'public/views/location.html'));
 });
 
 router.get('', authMiddleware, async (req, res) => {
-  const { username } = req.cookies.username;
+  const username = req.cookies.username;
 
   // Get the user's location from the database
-  const location = await Location.findOneByUsername(username);
+  const location = await Location.findByUsername(username);
 
   if (!location) {
     return res.status(404).json({ message: 'Location not found' });
@@ -20,12 +21,12 @@ router.get('', authMiddleware, async (req, res) => {
   return res.status(200).json({ location });
 });
 
-router.get('', authMiddleware, async (req, res) => {
+router.post('', authMiddleware, async (req, res) => {
   const { latitude, longitude } = req.body;
-  const { username } = req.user;
+  const username = req.cookies.username;
 
   // Save the user's location to the database
-  const location = await Location.create({ username, latitude, longitude });
+  const location = await Location.addLocation(username, latitude, longitude);
 
   return res.status(201).json({ location });
 });

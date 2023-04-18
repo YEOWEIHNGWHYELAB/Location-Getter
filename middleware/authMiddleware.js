@@ -12,7 +12,6 @@ const authMiddleware = (req, res, next) => {
   try {
     // verify token with secret key
     jwt.verify(token, process.env.JWT_SECRET, (err) => {
-      console.log(err);
       if (err)
         return res.status(403).send({ errorMsg: "Invalid login token provided, please relogin" });
 
