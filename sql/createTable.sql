@@ -1,9 +1,9 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   username VARCHAR(50) PRIMARY KEY,
   password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE locations (
+CREATE TABLE IF NOT EXISTS locations (
   id SERIAL PRIMARY KEY,
   username VARCHAR(50) NOT NULL REFERENCES users(username),
   latitude DOUBLE PRECISION NOT NULL,
