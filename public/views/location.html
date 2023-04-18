@@ -2,6 +2,10 @@
 <html>
 
 <head>
+  
+</head>
+
+<head>
   <title>Automatic Location Upload</title>
 </head>
 
@@ -16,21 +20,21 @@
 
   <p>Or</p>
 
-  <form id="manual-upload-form">
-    <label>
-      Latitude:
-      <input type="number" id="latitude" required step="any">
-    </label>
-    <br>
-    <label>
-      Longitude:
-      <input type="number" id="longitude" required step="any">
-    </label>
-    <br>
-    <button type="submit">Upload</button>
+  <form action="/location" method="POST">
+    <div>
+      <label for="latitude">Latitude:</label>
+      <input type="number" id="latitude" name="latitude" required step="any">
+    </div>
+    <div>
+      <label for="longitude">Longitude:</label>
+      <input type="number" id="longitude" name="longitude" required step="any">
+    </div>
+    <div>
+      <input type="submit" value="Upload Location">
+    </div>
   </form>
 
-  
+  <script src="../scripts/location.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 const { Model } = require('objection');
+const pool = require('../config/db');
 
 class Location extends Model {
   static get tableName() {
@@ -15,7 +16,7 @@ class Location extends Model {
 
   static async addLocation(username, lat, long) {
     const { rows } = await pool.query(
-      'INSERT INTO locations (username, latitdue, longitude) VALUES ($1, $2, $3) RETURNING *', 
+      'INSERT INTO locations (username, latitude, longitude) VALUES ($1, $2, $3) RETURNING *', 
       [username, lat, long]);
 
     return rows[0];

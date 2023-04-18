@@ -13,7 +13,7 @@ router.get('', authMiddleware, async (req, res) => {
 
   // Get the user's location from the database
   const location = await Location.findByUsername(username);
-
+  
   if (!location) {
     return res.status(404).json({ message: 'Location not found' });
   }
@@ -23,12 +23,21 @@ router.get('', authMiddleware, async (req, res) => {
 
 router.post('', authMiddleware, async (req, res) => {
   const { latitude, longitude } = req.body;
-  const username = req.cookies.username;
 
-  // Save the user's location to the database
-  const location = await Location.addLocation(username, latitude, longitude);
+  try {
+    const username = req.user;
 
-  return res.status(201).json({ location });
+    const lat = parseFloat(latitude);
+    const long = parseFloat(longitude);
+
+    // Save the user's location to the database
+    const location = await Location.addLocation(username, lat, long);
+
+    return res.status(201).json({ location });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error uploading location' });
+  }
 });
 
 module.exports = router;

@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set up routes
 app.use('/auth', authRoute);
 app.use('/register', registerRoute);
-app.use('/location', authMiddleware, locationRoute);
+app.use('/location', locationRoute);
 
 // Handle undefined routes
 app.use((req, res, next) => {
