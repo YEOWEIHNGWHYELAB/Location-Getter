@@ -26,10 +26,6 @@ pool.connect()
       .catch((err) => {
         console.error('Error executing SQL script', err);
       })
-      .finally(() => {
-        // Close the database connection
-        pool.end();
-      });
 
     console.log(`Connected to database: ${process.env.DATABASE_NAME.toString()}`);
   })
