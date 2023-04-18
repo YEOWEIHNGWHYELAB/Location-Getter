@@ -63,6 +63,8 @@
 
     // Function to send location to server
 		function sendLocation(latitude, longitude) {
+      const currentTime = new Date().toLocaleString();
+
 			fetch('/location', {
 				method: 'POST',
 				headers: {
@@ -75,7 +77,7 @@
 			})
 			.then(response => {
 				// console.log(response);
-				document.getElementById("last-location").textContent = latitude + ", " + longitude;
+				document.getElementById("last-location").textContent = currentTime + ": " + latitude + ", " + longitude;
 			})
 			.catch(error => console.error(error));
 		}
@@ -97,7 +99,7 @@
 		function startSending() {
 			setInterval(() => {
 				getLocationAndSend();
-			}, 1000);
+			}, 10000);
 		}
 	</script>
 </body>

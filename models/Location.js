@@ -17,7 +17,17 @@ class Location extends Model {
   // It is advisable to upload the time of sending the location as there is 
   // a delay in receiving the location from the database
   static async addLocation(username, lat, long) {
-    const now = new Date();
+    let now = new Date();
+
+    // Get the time zone offset in minutes
+    let timezoneOffset = now.getTimezoneOffset();
+
+    // Convert the time zone offset to milliseconds
+    let offsetInMs = timezoneOffset * 60 * 1000;
+
+    // Add the offset to the current date to adjust for the +8 hour locale
+    now.setTime(now.getTime() + offsetInMs + 8 * 60 * 60 * 1000);
+
     const dateString = now.toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
 
     const { rows } = await pool.query(
