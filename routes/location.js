@@ -8,7 +8,7 @@ router.get('', authMiddleware, function(req, res) {
     res.sendFile(path.join(__dirname, '..', 'public/views/location.html'));
 });
 
-router.get('', authMiddleware, async (req, res) => {
+router.get('/get', authMiddleware, async (req, res) => {
   const username = req.cookies.username;
 
   // Get the user's location from the database

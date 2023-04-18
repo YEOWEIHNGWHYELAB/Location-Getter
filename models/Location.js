@@ -8,7 +8,7 @@ class Location extends Model {
 
   static async findByUsername(username) {
     const { rows } = await pool.query(
-      'SELECT * FROM locations WHERE username = $1', 
+      'SELECT * FROM locations WHERE username = $1 ORDER BY timestamp DESC LIMIT 10', 
       [username]);
 
     return rows;
@@ -19,14 +19,8 @@ class Location extends Model {
   static async addLocation(username, lat, long) {
     let now = new Date();
 
-    // Get the time zone offset in minutes
-    let timezoneOffset = now.getTimezoneOffset();
-
-    // Convert the time zone offset to milliseconds
-    let offsetInMs = timezoneOffset * 60 * 1000;
-
     // Add the offset to the current date to adjust for the +8 hour locale
-    now.setTime(now.getTime() + offsetInMs + 8 * 60 * 60 * 1000);
+    now.setTime(now.getTime() + 8 * 60 * 60 * 1000);
 
     const dateString = now.toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
 
