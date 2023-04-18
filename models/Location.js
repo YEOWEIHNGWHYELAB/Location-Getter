@@ -14,10 +14,15 @@ class Location extends Model {
     return rows;
   }
 
+  // It is advisable to upload the time of sending the location as there is 
+  // a delay in receiving the location from the database
   static async addLocation(username, lat, long) {
+    const now = new Date();
+    const dateString = now.toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
+
     const { rows } = await pool.query(
-      'INSERT INTO locations (username, latitude, longitude) VALUES ($1, $2, $3) RETURNING *', 
-      [username, lat, long]);
+      'INSERT INTO locations (username, latitude, longitude, timestamp) VALUES ($1, $2, $3, $4) RETURNING *', 
+      [username, lat, long, dateString]);
 
     return rows[0];
   }

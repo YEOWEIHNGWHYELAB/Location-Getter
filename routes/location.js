@@ -23,7 +23,7 @@ router.get('', authMiddleware, async (req, res) => {
 
 router.post('', authMiddleware, async (req, res) => {
   const { latitude, longitude } = req.body;
-
+  
   try {
     const username = req.user;
 

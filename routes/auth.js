@@ -10,14 +10,14 @@ router.get('', function(req, res) {
     res.sendFile(path.join(__dirname, '..', 'public/views/login.html'));
 });
 
-
+// POST logout current user
 router.post('/logout', async (req, res) => {
   res.clearCookie('jwt');
   res.clearCookie('username');
   return res.status(200).json({ message: 'Logged out successfully' });
 });
 
-// POST new user registration
+// POST curret user login 
 router.post('', async (req, res) => {
     try {
         // Verify username and password
