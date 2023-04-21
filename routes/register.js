@@ -18,7 +18,7 @@ router.post("", async (req, res) => {
     const existingUser = await User.findOneByUsername(username);
 
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.redirect('/register');
     }
 
     // Hash password
@@ -28,7 +28,7 @@ router.post("", async (req, res) => {
     // Create new user
     const newUser = await User.createUser({ username, hashPassword });
 
-    res.status(201).json({ message: `${newUser.username} created successfully` });
+    res.redirect('/auth');
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

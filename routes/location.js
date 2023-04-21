@@ -36,7 +36,7 @@ router.post('', authMiddleware, async (req, res) => {
     return res.status(201).json({ location });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error uploading location' });
+    res.redirect('/auth');
   }
 });
 

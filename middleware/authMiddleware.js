@@ -6,14 +6,14 @@ const authMiddleware = (req, res, next) => {
 
   // if token is not found, return 401 unauthorized error
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized access.' });
+    return res.redirect('/auth');
   }
 
   try {
     // verify token with secret key
     jwt.verify(token, process.env.JWT_SECRET, (err) => {
       if (err)
-        return res.status(403).send({ errorMsg: "Invalid login token provided, please relogin" });
+        return res.redirect('/auth');
 
       req.user = req.cookies.username;
 
@@ -21,7 +21,7 @@ const authMiddleware = (req, res, next) => {
     });
   } catch (error) {
     // if token is invalid, return 403 forbidden error
-    return res.status(403).json({ message: 'Forbidden access.' });
+    return res.redirect('/auth');
   }
 };
 

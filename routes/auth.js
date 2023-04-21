@@ -14,7 +14,7 @@ router.get('', function(req, res) {
 router.post('/logout', async (req, res) => {
   res.clearCookie('jwt');
   res.clearCookie('username');
-  return res.status(200).json({ message: 'Logged out successfully' });
+  return res.redirect('/auth');
 });
 
 // POST curret user login 
@@ -24,13 +24,13 @@ router.post('', async (req, res) => {
         const user = await User.findOneByUsername(req.body.username);
 
         if (!user) {
-          return res.status(401).json({ error: 'Invalid credentials username' });
+          return res.redirect('/auth');
         }
 
         const validPassword = await bcrypt.compare(req.body.password, user.password);
 
         if (!validPassword) {
-          return res.status(401).json({ error: 'Invalid credentials' });
+          return res.redirect('/auth');
         }
     
         // Create a JWT token
@@ -47,10 +47,10 @@ router.post('', async (req, res) => {
 
         res.cookie("username", req.body.username, { maxAge: 24 * 60 * 60 * 1000 });
 
-        res.status(200).json({ message: 'Logged in successfully' });
+        res.redirect('/location');
       } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.redirect('/auth');
       }
 });
 
